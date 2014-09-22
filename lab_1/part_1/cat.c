@@ -17,23 +17,6 @@ int main (int argc, char* argv[])
     }
 
 	char *filepath = argv[1];								// filepath from terminal argument
-	
-	int return_val;											// return_val is a dummy var
-	return_val = access (filepath, F_OK);					// access checks if file exits
-
-	if (return_val == 0) 									// if return_val is 0, file exists
-		printf("%s does exist\n", filepath);
-	
-	else													// if return_val is negative
-	{
-		if (errno == ENOENT) 								// The named file does not exist.
-			printf("cat: %s: No such file or directory\n", filepath);
-		
-		else if (errno == EACCES)							// EACCESS - permisssion denied
-			printf("%s is not accessible (permisssion denied)\n", filepath);
-		
-		return 0;
-	}
 
 	int fd, n;												// fd - file descriptor, n - bytes read
 	fd = open(filepath, O_RDWR);							// try file opened for RDWR access
@@ -48,10 +31,13 @@ int main (int argc, char* argv[])
        		into the buffer starting at buf. */
 
 		while((n = read(fd, buff, BUFSIZ)) > 0)				// n bytes are read, zero indicates end of file
-        	write(1, buff, n);
+        	write(1, buff, n);								// 1 to write to terminal
 	}
+	
+	else 
+		perror("open");										// displays errors if any
 
 	close (fd);												// close the file in the end
-
+	printf("\n");
 	return 0;
 }
