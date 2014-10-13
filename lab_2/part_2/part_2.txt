@@ -1,0 +1,28 @@
+I ran this program several times and I did not see any difference
+in the output of the program.
+
+The output of the program is shown below:
+Initial -> a: 10, b: 25, pid: 59914
+P       -> a: 10, b: 30, pid: 59914
+Q       -> a: 35, b: 25, pid: 59915
+Q       -> a: 35, b: 45, pid: 59915
+R       -> a: 905, b: 25, pid: 59916
+
+The initial value of a is 10, b is 25.
+
+When the program starts, the first fork() creates a child process, Q.
+
+Q process is the child of process P.
+
+That fork() returns a positive integer indicating that a child process
+has been created. So the pid is not 0, therefore the "else" of the
+1st "if" gets executed, which is the parent P.
+
+After that the child of process P, process Q, is executed which is
+inside the 1st "if" statement.
+
+In that process the second fork() creates another child process, R.
+The pid of that fork() is also another positive integer, so the 
+1st nested "if" inside the 1st "if" gets executed, which is process Q.
+
+Finally the process R, child of process Q is executed in the end.
